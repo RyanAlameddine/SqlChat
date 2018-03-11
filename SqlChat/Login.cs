@@ -51,9 +51,7 @@ namespace SqlChat
             }
             else
             {
-                Console.Write("Welcome ");
-                ConsoleAdditions.ColoredWrite(ConsoleColor.Green, username);
-                Console.WriteLine(".");
+                ConsoleAdditions.WriteLine($"Welcome §a{username}§7.");
                 Success = true;
             }
 

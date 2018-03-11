@@ -14,7 +14,7 @@ namespace SqlChat.Commands
             : base()
         {
             label = "help";
-            description = "Shows description of all commands or a specified command.\nUsage: help (command)";
+            description = "Shows description of all commands or a specified command.\nUsage: help (command) | help colors";
             this.activeCommands = activeCommands;
         }
         public override void Execute(string[] arguments)
@@ -34,6 +34,12 @@ namespace SqlChat.Commands
             }
             else
             {
+                if(arguments[0].ToLower() == "colors")
+                {
+                    Console.WriteLine("§0 - Black       §1 - Dark Blue\n§2 - Dark Green  §3 - Dark Cyan\n§4 - Dark Red    §5 - Dark Magenta\n§6 - Dark Yellow §7 - White\n§8 - Gray        §9 - Blue\n§a - Green       §b - Cyan\n§c - Red         §d - Magenta\n§e - Yellow      §f - Bright White");
+                    return;
+                }
+
                 foreach (Command command in activeCommands)
                 {
                     if(command.label == arguments[0].ToLower())

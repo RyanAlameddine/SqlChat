@@ -10,6 +10,7 @@ namespace SqlChat
     {
         public string label;
         public string description;
+        public List<string> aliases = new List<string>();
         
         public virtual void Execute(string[] arguments)
         {
@@ -18,7 +19,7 @@ namespace SqlChat
 
         public void Fail()
         {
-            ConsoleAdditions.ColoredWriteLine(ConsoleColor.Red, $"Command execution failed. Please view the following information on {label}.");
+            ConsoleAdditions.WriteLine($"§4Command execution failed. Please view the following information on {label}§4.");
             Program.commandHandler.Execute($"help {label}");
         }
     }

@@ -21,7 +21,7 @@ namespace SqlChat
 
         public void InputCommand()
         {
-            Console.Write("> ");
+            ConsoleAdditions.Write("§7> ");
             string input = "";
             int inputLengthAtTab = 0;
             int commandEndingsIndex = 0;
@@ -72,7 +72,19 @@ namespace SqlChat
                     {
                         foreach(Command command in activeCommands)
                         {
-                            if(command.label.Length < split[0].Length)
+                            foreach (string alias in command.aliases)
+                            {
+                                if (alias.Length < split[0].Length)
+                                {
+                                    continue;
+                                }
+                                else if (alias.Substring(0, split[0].Length) == split[0].ToLower())
+                                {
+                                    intendedCommandEndings.Add(alias.Substring(split[0].Length));
+                                }
+                            }
+
+                            if (command.label.Length < split[0].Length)
                             {
                                 continue;
                             }
@@ -124,17 +136,18 @@ namespace SqlChat
 
             foreach (Command command in activeCommands)
             {
-                if (command.label.ToLower() == label)
+                if (command.label.ToLower() == label || command.aliases.Contains(label))
                 {
                     command.Execute(args);
                     return;
                 }
             }
-            Console.WriteLine($"Command {label} does not exist. Enter 'help' to see available commands.");
+            ConsoleAdditions.WriteLine($"§7Command {label}§7 does not exist. Enter 'help' to see available commands.");
         }
 
-        public void Deregister(params string[] labels)
+        public bool Deregister(params string[] labels)
         {
+            int degeregistered = 0;
             for (int c = 0; c < activeCommands.Count; c++)
             {
                 foreach (string label in labels)
@@ -142,10 +155,12 @@ namespace SqlChat
                     if (label == activeCommands[c].label)
                     {
                         activeCommands.RemoveAt(c);
+                        degeregistered++;
                         c--;
                     }
                 }
             }
+            return degeregistered == labels.Count();
         }
 
         public void Register(params Command[] commands)

@@ -17,6 +17,7 @@ namespace SqlChat
 
         static void Main(string[] args)
         {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
             SqlConnection connection = new SqlConnection("Server=GMRMLTV;Database=RyanAChatroomDB;User Id=sa;Password=GreatMinds110;");
             connection.Open();
 
@@ -24,7 +25,7 @@ namespace SqlChat
             rooms = new Rooms(connection);
             commandHandler = new CommandHandler();
 
-            Console.WriteLine("Welcome to the Ch@room.\nPlease login or register");
+            ConsoleAdditions.WriteLine("Welcome to the §aCh@room§7.\nPlease login or register");
             while (!login.Success)
             {
                 commandHandler.InputCommand();

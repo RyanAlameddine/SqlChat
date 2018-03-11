@@ -51,6 +51,7 @@
     <Compile Include="Commands\LoginCommand.cs" />
     <Compile Include="Commands\HelpCommand.cs" />
     <Compile Include="ConsoleAdditions.cs" />
+    <Compile Include="HexConversion.cs" />
     <Compile Include="Rooms.cs" />
     <Compile Include="Login.cs" />
     <Compile Include="Program.cs" />

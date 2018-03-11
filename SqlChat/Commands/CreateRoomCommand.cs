@@ -13,6 +13,7 @@ namespace SqlChat.Commands
         {
             label = "createroom";
             description = "Create a chat room.\nUsage: createroom <name>";
+            aliases.Add("cr");
         }
 
         public override void Execute(string[] arguments)

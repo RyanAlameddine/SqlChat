@@ -12,7 +12,8 @@ namespace SqlChat.Commands
             : base()
         {
             label = "clear";
-            description = "Clear console.\nUsage: clear";
+            description = "Clear console.\nAliases: { cls }\nUsage: clear";
+            aliases.Add("cls");
         }
 
         public override void Execute(string[] arguments)

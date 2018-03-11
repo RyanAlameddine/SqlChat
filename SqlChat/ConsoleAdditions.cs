@@ -8,21 +8,6 @@ namespace SqlChat
 {
     public static class ConsoleAdditions
     {
-        public static void ColoredWrite(ConsoleColor color, string text)
-        {
-            ConsoleColor originalColor = Console.ForegroundColor;
-            Console.ForegroundColor = color;
-            Console.Write(text);
-            Console.ForegroundColor = originalColor;
-        }
-
-        public static void ColoredWriteLine(ConsoleColor color, string text)
-        {
-            ConsoleColor originalColor = Console.ForegroundColor;
-            Console.ForegroundColor = color;
-            Console.WriteLine(text);
-            Console.ForegroundColor = originalColor;
-        }
 
         public static void WriteLine(string text)
         {
@@ -39,10 +24,34 @@ namespace SqlChat
                 return;
             }
 
+            if(text[0] == '§')
+            {
+                CreateColor(split[0]);
+            }
+            else
+            {
+                Console.Write(split[0]);
+            }
+
             for(int i = 1; i < split.Count(); i++)
             {
-                FIX THIS
+                CreateColor(split[i]);
             }
+        }
+
+        private static void CreateColor(string text)
+        {
+            if (text == string.Empty) return;
+            int hex = text[0].ToHexInt();
+
+            if(hex == -1)
+            {
+                Console.Write(text);
+                return;
+            }
+
+            Console.ForegroundColor = (ConsoleColor)(hex);
+            Console.Write(text.Substring(1));
         }
     }
 }
