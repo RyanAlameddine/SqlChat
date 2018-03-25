@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,13 +41,16 @@ namespace SqlChat.Commands
             DataTable messages = Program.rooms.ReadMessages();
 
             StringBuilder stringBuilder = new StringBuilder();
-            foreach(DataRow row in table.Rows)
+            foreach(DataRow row in messages.Rows)
             {
-                stringBuilder.Append(row[1]);
+                stringBuilder.Append(row[3]);
                 stringBuilder.Append(": ");
                 stringBuilder.AppendLine(row[0].ToString());
             }
             ConsoleAdditions.WriteLine(stringBuilder.ToString());
+            Program.commandHandler.Register(new InviteCommand());
+            
+            
         }
     }
 }

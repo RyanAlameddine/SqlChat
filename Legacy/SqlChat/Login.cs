@@ -93,5 +93,19 @@ namespace SqlChat
             this.username = username;
             Success = true;
         }
+
+        public int FindUserID(string input)
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = connection;
+            command.CommandType = CommandType.Text;
+            command.CommandText = $"SELECT Users.UserID FROM Users WHERE Username = '{input}'";
+
+            DataTable table = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            adapter.Fill(table);
+
+            return table.Rows.Count > 0 ? (int)table.Rows[0][0] : -1;
+        }
     }
 }

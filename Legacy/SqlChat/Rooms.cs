@@ -36,6 +36,19 @@ namespace SqlChat
             adapter.Fill(table);
         }
 
+        public void Invite(int id)
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = connection;
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "usp_Invite";
+
+            command.Parameters.AddWithValue("@UserID", id);
+            command.Parameters.AddWithValue("@RoomID", roomID);
+
+            command.ExecuteNonQuery();
+        }
+
         public DataTable JoinRoom(string UserID, string ChatRoomName)
         {
             SqlCommand command = new SqlCommand();
@@ -109,5 +122,6 @@ namespace SqlChat
             SqlDataAdapter adapter = new SqlDataAdapter(command);
             adapter.Fill(table);
         }
+
     }
 }
