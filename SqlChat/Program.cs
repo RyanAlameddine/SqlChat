@@ -15,6 +15,8 @@ namespace SqlChat
         public static Rooms rooms;
         public static bool running = true;
 
+        public static string[] messages = new string[20];
+
         static void Main(string[] args)
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
@@ -32,7 +34,7 @@ namespace SqlChat
             }
 
             commandHandler.Deregister("login", "register");
-            commandHandler.Register  (new ExitCommand(), new CreateRoomCommand());
+            commandHandler.Register  (new ExitCommand(), new CreateRoomCommand(), new JoinCommand());
 
             while (running)
             {

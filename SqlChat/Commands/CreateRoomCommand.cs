@@ -11,9 +11,9 @@ namespace SqlChat.Commands
         public CreateRoomCommand()
             : base()
         {
-            label = "createroom";
-            description = "Create a chat room.\nUsage: createroom <name>";
-            aliases.Add("cr");
+            label = ".createroom";
+            description = "Create a chat room.\nUsage: .createroom <name>";
+            aliases.Add(".cr");
         }
 
         public override void Execute(string[] arguments)

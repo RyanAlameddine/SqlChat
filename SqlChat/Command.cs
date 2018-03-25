@@ -20,7 +20,7 @@ namespace SqlChat
         public void Fail()
         {
             ConsoleAdditions.WriteLine($"§4Command execution failed. Please view the following information on {label}§4.");
-            Program.commandHandler.Execute($"help {label}");
+            Program.commandHandler.Execute($".help {label}");
         }
     }
 }

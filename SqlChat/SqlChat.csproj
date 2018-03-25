@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Command.cs" />
     <Compile Include="CommandHandler.cs" />
+    <Compile Include="Commands\JoinCommand.cs" />
     <Compile Include="Commands\CreateRoomCommand.cs" />
     <Compile Include="Commands\ClearCommand.cs" />
     <Compile Include="Commands\ExitCommand.cs" />

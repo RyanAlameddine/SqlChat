@@ -11,9 +11,9 @@ namespace SqlChat.Commands
         public ClearCommand()
             : base()
         {
-            label = "clear";
-            description = "Clear console.\nAliases: { cls }\nUsage: clear";
-            aliases.Add("cls");
+            label = ".clear";
+            description = "Clear console.\nAliases: { .cls }\nUsage: .clear";
+            aliases.Add(".cls");
         }
 
         public override void Execute(string[] arguments)

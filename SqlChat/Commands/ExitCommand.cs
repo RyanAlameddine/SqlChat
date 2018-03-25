@@ -11,8 +11,8 @@ namespace SqlChat.Commands
         public ExitCommand()
             : base()
         {
-            label = "exit";
-            description = "Leave Ch@room.\nUsage: exit";
+            label = ".exit";
+            description = "Leave Ch@room.\nUsage: .exit";
         }
 
         public override void Execute(string[] arguments)

@@ -13,8 +13,8 @@ namespace SqlChat.Commands
         public HelpCommand(List<Command> activeCommands)
             : base()
         {
-            label = "help";
-            description = "Shows description of all commands or a specified command.\nUsage: help (command) | help colors";
+            label = ".help";
+            description = "Shows description of all commands or a specified command.\nUsage: .help (command) | .help colors";
             this.activeCommands = activeCommands;
         }
         public override void Execute(string[] arguments)

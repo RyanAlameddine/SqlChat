@@ -11,8 +11,8 @@ namespace SqlChat.Commands
         public RegisterCommand()
             : base()
         {
-            label = "register";
-            description = "Register for Ch@room.\nUsage: register {username} {password}";
+            label = ".register";
+            description = "Register for Ch@room.\nUsage: .register <username> <password>";
         }
 
         public override void Execute(string[] arguments)

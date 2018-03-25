@@ -123,26 +123,33 @@ namespace SqlChat
 
         public void Execute(string input)
         {
-            string[] split = input.Split(' ');
-
-            if (split.Count() == 0) return;
-
-            string[] args = new string[split.Count() - 1];
-            for (int i = 0; i < args.Count(); i++)
+            if (input[0] == '.')
             {
-                args[i] = split[i + 1];
-            }
-            string label = split[0];
+                string[] split = input.Split(' ');
 
-            foreach (Command command in activeCommands)
-            {
-                if (command.label.ToLower() == label || command.aliases.Contains(label))
+                if (split.Count() == 0) return;
+
+                string[] args = new string[split.Count() - 1];
+                for (int i = 0; i < args.Count(); i++)
                 {
-                    command.Execute(args);
-                    return;
+                    args[i] = split[i + 1];
                 }
+                string label = split[0];
+
+                foreach (Command command in activeCommands)
+                {
+                    if (command.label.ToLower() == label || command.aliases.Contains(label))
+                    {
+                        command.Execute(args);
+                        return;
+                    }
+                }
+                ConsoleAdditions.WriteLine($"§7Command {label}§7 does not exist. Enter '.help' to see available commands.");
             }
-            ConsoleAdditions.WriteLine($"§7Command {label}§7 does not exist. Enter 'help' to see available commands.");
+            else
+            {
+                Program.rooms.SendMessage(input);
+            }
         }
 
         public bool Deregister(params string[] labels)

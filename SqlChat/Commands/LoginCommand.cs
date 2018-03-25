@@ -11,8 +11,8 @@ namespace SqlChat.Commands
         public LoginCommand()
             : base()
         {
-            label = "login";
-            description = "Log into Ch@room.\nUsage: login {username} {password}";
+            label = ".login";
+            description = "Log into Ch@room.\nUsage: .login <username> <password>";
         }
 
         public override void Execute(string[] arguments)

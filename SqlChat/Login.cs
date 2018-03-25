@@ -10,7 +10,7 @@ namespace SqlChat
 {
     public class Login
     {
-        string username;
+        public string username;
         public string userID;
         public bool Success;
         SqlConnection connection;
