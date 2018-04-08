@@ -15,6 +15,7 @@ namespace SqlChatForms.Commands
         {
             label = ".join";
             description = "Join a chatroom.\nUsage: .join <room name>";
+            aliases.Add(".j");
         }
 
         public override void Execute(string[] arguments)
@@ -38,16 +39,17 @@ namespace SqlChatForms.Commands
             Console.Clear();
             Console.Title = table.Rows[0][0].ToString();
 
-            DataTable messages = Program.rooms.ReadMessages();
+            DataRow[] messages = Program.rooms.ReadMessages();
 
             StringBuilder stringBuilder = new StringBuilder();
-            foreach(DataRow row in messages.Rows)
+            foreach(DataRow row in messages)
             {
-                stringBuilder.Append(row[3]);
+                stringBuilder.Append(row[1]);
                 stringBuilder.Append(": ");
                 stringBuilder.AppendLine(row[0].ToString());
             }
-            ConsoleAdditions.WriteLine(stringBuilder.ToString());
+            Program.chatViewer.Invoke(new Action(() => { Program.chatViewer.label.Text = stringBuilder.ToString(); }));
+            
             Program.commandHandler.Register(new InviteCommand());
 
         }

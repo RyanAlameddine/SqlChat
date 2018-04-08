@@ -57,7 +57,9 @@
     <Compile Include="Commands\ExitCommand.cs" />
     <Compile Include="Commands\HelpCommand.cs" />
     <Compile Include="Commands\InviteCommand.cs" />
+    <Compile Include="Commands\ListCommand.cs" />
     <Compile Include="Commands\JoinCommand.cs" />
+    <Compile Include="Commands\FriendCommand.cs" />
     <Compile Include="Commands\LoginCommand.cs" />
     <Compile Include="Commands\RegisterCommand.cs" />
     <Compile Include="ConsoleAdditions.cs" />

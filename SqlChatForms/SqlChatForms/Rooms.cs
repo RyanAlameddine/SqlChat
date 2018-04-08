@@ -10,58 +10,31 @@ namespace SqlChatForms
 {
     public class Rooms
     {
-        SqlConnection connection;
-
         int ownerID;
-        int roomID = -1;
+        public int roomID = -1;
         string roomName;
-
-        public Rooms(SqlConnection connection)
-        {
-            this.connection = connection;
-        }
 
         public void Createroom(string UserID, string Name)
         {
-            SqlCommand command = new SqlCommand();
-            command.Connection = connection;
-            command.CommandType = CommandType.StoredProcedure;
-            command.CommandText = "usp_Createroom";
+            DataTable table = Program.ExecuteUSP("usp_Createroom", ("@UserID", UserID), ("@Name", Name));
 
-            command.Parameters.AddWithValue("@UserID", UserID);
-            command.Parameters.AddWithValue("@Name", Name);
-
-            DataTable table = new DataTable();
-            SqlDataAdapter adapter = new SqlDataAdapter(command);
-            adapter.Fill(table);
+            Invite(int.Parse(UserID), int.Parse(table.Rows[0][0].ToString()));
         }
 
         public void Invite(int id)
         {
-            SqlCommand command = new SqlCommand();
-            command.Connection = connection;
-            command.CommandType = CommandType.StoredProcedure;
-            command.CommandText = "usp_Invite";
+            Program.ExecuteUSP("usp_Invite", ("@UserID", id), ("@RoomID", roomID));
+        }
 
-            command.Parameters.AddWithValue("@UserID", id);
-            command.Parameters.AddWithValue("@RoomID", roomID);
-
-            command.ExecuteNonQuery();
+        public void Invite(int UserId, int roomID)
+        {
+            DataTable table = Program.ExecuteUSP("usp_Invite", ("@UserID", UserId), ("@RoomID", roomID));
         }
 
         public DataTable JoinRoom(string UserID, string ChatRoomName)
         {
-            SqlCommand command = new SqlCommand();
-            command.Connection = connection;
-            command.CommandType = CommandType.StoredProcedure;
-            command.CommandText = "usp_JoinRoom";
 
-            command.Parameters.AddWithValue("@ChatRoomName", ChatRoomName);
-            command.Parameters.AddWithValue("@UserID", UserID);
-
-            DataTable table = new DataTable();
-            SqlDataAdapter adapter = new SqlDataAdapter(command);
-            adapter.Fill(table);
+            DataTable table = Program.ExecuteUSP("usp_JoinRoom", ("@ChatRoomName", ChatRoomName), ("@UserID", UserID));
 
             if (table.Rows.Count == 0) { return null; }
 
@@ -72,18 +45,17 @@ namespace SqlChatForms
             return table;
         }
 
-        public DataTable ReadMessages()
+        public DataRow[] ReadMessages()
         {
-            SqlCommand command = new SqlCommand();
-            command.Connection = connection;
-            command.CommandType = CommandType.Text;
-            command.CommandText = $"SELECT * FROM Messages WHERE RoomID = {roomID}";
+            DataTable table = Program.ExecuteUSP("usp_GetMessages", ("@RoomID", roomID));
 
-            DataTable table = new DataTable();
-            SqlDataAdapter adapter = new SqlDataAdapter(command);
-            adapter.Fill(table);
+            DataRow[] newTable = new DataRow[table.Rows.Count];
+            for(int i = 0; i < newTable.Length; i++)
+            {
+                newTable[i] = table.Rows[newTable.Length - i - 1];
+            }
 
-            return table;
+            return newTable;
         }
 
         public void SendMessage(string input)
@@ -94,34 +66,28 @@ namespace SqlChatForms
             }
             else
             {
-                SqlCommand command = new SqlCommand();
-                command.Connection = connection;
-                command.CommandType = CommandType.StoredProcedure;
-                command.CommandText = "usp_SendMessage";
+                Program.ExecuteUSP("usp_SendMessage", ("@Message", input), ("@Date", DateTime.Now), ("@UserID", Program.login.userID), ("@UserName", Program.login.username), ("@RoomID", roomID));
 
-                command.Parameters.AddWithValue("@Message" , input);
-                command.Parameters.AddWithValue("@Date"    , DateTime.Now);
-                command.Parameters.AddWithValue("@UserID"  , Program.login.userID);
-                command.Parameters.AddWithValue("@UserName", Program.login.username);
-                command.Parameters.AddWithValue("@RoomID"  , roomID);
+                Console.Clear();
 
-                command.ExecuteNonQuery();
+                DataRow[] messages = Program.rooms.ReadMessages();
+
+                StringBuilder stringBuilder = new StringBuilder();
+                foreach (DataRow row in messages)
+                {
+                    stringBuilder.Append(row[1]);
+                    stringBuilder.Append(": ");
+                    stringBuilder.AppendLine(row[0].ToString());
+                }
+                Program.chatViewer.Invoke(new Action(() => { Program.chatViewer.label.Text = stringBuilder.ToString(); }));
             }
         }
 
-        public void GetMessages(int RoomID)
+        public DataTable GetRooms()
         {
-            SqlCommand command = new SqlCommand();
-            command.Connection = connection;
-            command.CommandType = CommandType.StoredProcedure;
-            command.CommandText = "usp_GetMessages";
+            DataTable table = Program.ExecuteUSP("usp_GetRooms", ("@USerID", Program.login.userID));
 
-            command.Parameters.AddWithValue("@RoomID", RoomID);
-
-            DataTable table = new DataTable();
-            SqlDataAdapter adapter = new SqlDataAdapter(command);
-            adapter.Fill(table);
+            return table;
         }
-
     }
 }

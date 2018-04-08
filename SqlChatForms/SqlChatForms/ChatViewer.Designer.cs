@@ -28,17 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.text = new System.Windows.Forms.Label();
+            this.TextBox = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // text
+            // TextBox
             // 
-            this.text.Location = new System.Drawing.Point(12, 9);
-            this.text.MaximumSize = new System.Drawing.Size(500, 500);
-            this.text.Name = "text";
-            this.text.Size = new System.Drawing.Size(460, 465);
-            this.text.TabIndex = 0;
-            this.text.Text = "label1";
+            this.TextBox.AutoSize = true;
+            this.TextBox.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TextBox.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.TextBox.Location = new System.Drawing.Point(12, 9);
+            this.TextBox.MaximumSize = new System.Drawing.Size(500, 500);
+            this.TextBox.Name = "TextBox";
+            this.TextBox.Size = new System.Drawing.Size(0, 15);
+            this.TextBox.TabIndex = 0;
+            this.TextBox.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // ChatViewer
             // 
@@ -46,17 +49,19 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(484, 511);
-            this.Controls.Add(this.text);
+            this.Controls.Add(this.TextBox);
             this.KeyPreview = true;
             this.Name = "ChatViewer";
             this.Text = "ChatViewer";
+            this.Load += new System.EventHandler(this.ChatViewer_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Label text;
+        private System.Windows.Forms.Label TextBox;
     }
 }
 

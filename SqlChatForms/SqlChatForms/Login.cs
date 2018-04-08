@@ -13,26 +13,11 @@ namespace SqlChatForms
         public string username;
         public string userID;
         public bool Success;
-        SqlConnection connection;
 
-        public Login(SqlConnection connection)
-        {
-            this.connection = connection;
-        }
 
         public void AttemptLogin(string username, string password)
         {
-            SqlCommand command = new SqlCommand();
-            command.Connection = connection;
-            command.CommandType = CommandType.StoredProcedure;
-            command.CommandText = "usp_Login";
-
-            command.Parameters.AddWithValue("@Username", username);
-            command.Parameters.AddWithValue("@Password", password);
-
-            DataTable table = new DataTable();
-            SqlDataAdapter adapter = new SqlDataAdapter(command);
-            adapter.Fill(table);
+            DataTable table = Program.ExecuteUSP("usp_Login", ("@Username", username), ("@Password", password));
 
             Console.Clear();
 
@@ -61,33 +46,14 @@ namespace SqlChatForms
 
         bool usernameExists(string username)
         {
-            SqlCommand command = new SqlCommand();
-            command.Connection = connection;
-            command.CommandType = CommandType.StoredProcedure;
-            command.CommandText = "usp_GetUser";
-
-            command.Parameters.AddWithValue("@Username", username);
-
-            DataTable table = new DataTable();
-            SqlDataAdapter adapter = new SqlDataAdapter(command);
-            adapter.Fill(table);
+            DataTable table = Program.ExecuteUSP("usp_GetUser", ("@Username", username));
 
             return table.Rows.Count > 0;
         }
 
         public void createUser(string username, string password)
         {
-            SqlCommand command = new SqlCommand();
-            command.Connection = connection;
-            command.CommandType = CommandType.StoredProcedure;
-            command.CommandText = "usp_CreateUser";
-
-            command.Parameters.AddWithValue("@Username", username);
-            command.Parameters.AddWithValue("@Password", password);
-
-            DataTable table = new DataTable();
-            SqlDataAdapter adapter = new SqlDataAdapter(command);
-            adapter.Fill(table);
+            DataTable table = Program.ExecuteUSP("usp_CreateUser", ("@Username", username), ("@Password", password));
 
             userID = table.Rows[0]["UserID"].ToString();
             this.username = username;
@@ -96,14 +62,7 @@ namespace SqlChatForms
 
         public int FindUserID(string input)
         {
-            SqlCommand command = new SqlCommand();
-            command.Connection = connection;
-            command.CommandType = CommandType.Text;
-            command.CommandText = $"SELECT Users.UserID FROM Users WHERE Username = '{input}'";
-
-            DataTable table = new DataTable();
-            SqlDataAdapter adapter = new SqlDataAdapter(command);
-            adapter.Fill(table);
+            DataTable table = Program.ExecuteUSP("usp_GetUser", ("@Username", username));
 
             return table.Rows.Count > 0 ? (int)table.Rows[0][0] : -1;
         }

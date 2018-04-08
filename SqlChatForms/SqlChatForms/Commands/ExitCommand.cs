@@ -12,14 +12,22 @@ namespace SqlChatForms.Commands
             : base()
         {
             label = ".exit";
-            description = "Leave Ch@room.\nUsage: .exit";
+            description = "Leave Ch@room or exit program.\nUsage: .exit";
         }
 
         public override void Execute(string[] arguments)
         {
             base.Execute(arguments);
 
-            Program.running = false;
+            if (Program.rooms.roomID == -1)
+            {
+                Program.running = false;
+            }
+            else
+            {
+                Program.rooms.roomID = -1;
+                Program.chatViewer.Invoke(new Action(() => { Program.chatViewer.label.Text = ""; }));
+            }
         }
     }
 }

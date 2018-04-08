@@ -12,9 +12,15 @@ namespace SqlChatForms
 {
     public partial class ChatViewer : Form
     {
+        public Label label;
         public ChatViewer()
         {
             InitializeComponent();
+        }
+
+        private void ChatViewer_Load(object sender, EventArgs e)
+        {
+            label = TextBox;
         }
     }
 }

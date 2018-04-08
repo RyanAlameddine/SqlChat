@@ -14,6 +14,7 @@ namespace SqlChatForms.Commands
         {
             label = ".invite";
             description = "Invite someone to the current chatroom.\nUsage: .invite <username>";
+            aliases.Add(".i");
         }
 
         public override void Execute(string[] arguments)

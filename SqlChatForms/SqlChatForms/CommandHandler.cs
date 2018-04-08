@@ -148,7 +148,7 @@ namespace SqlChatForms
             }
             else
             {
-                Program.rooms.SendMessage(input + "§7");
+                Program.rooms.SendMessage(input);//26
             }
         }
 
