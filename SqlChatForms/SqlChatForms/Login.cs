@@ -42,6 +42,7 @@ namespace SqlChatForms
 
             userID = table.Rows[0]["UserID"].ToString();
             this.username = username;
+            Program.ExecuteUSP("usp_SetOnline", ("@UserID", userID), ("@Online", true));
         }
 
         bool usernameExists(string username)
@@ -62,7 +63,7 @@ namespace SqlChatForms
 
         public int FindUserID(string input)
         {
-            DataTable table = Program.ExecuteUSP("usp_GetUser", ("@Username", username));
+            DataTable table = Program.ExecuteUSP("usp_GetUser", ("@Username", input));
 
             return table.Rows.Count > 0 ? (int)table.Rows[0][0] : -1;
         }

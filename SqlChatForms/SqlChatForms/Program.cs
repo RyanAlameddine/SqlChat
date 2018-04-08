@@ -26,6 +26,8 @@ namespace SqlChatForms
         [STAThread]
         static async Task Main(string[] args)
         {
+            AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
+            Console.CancelKeyPress += new ConsoleCancelEventHandler(OnProcessExit);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             chatViewer = new ChatViewer();
@@ -49,12 +51,14 @@ namespace SqlChatForms
                 }
 
                 commandHandler.Deregister(".login", ".register");
-                commandHandler.Register(new ExitCommand(), new CreateRoomCommand(), new JoinCommand(), new ListRoomsCommand());
+                commandHandler.Register(new ExitCommand(), new CreateRoomCommand(), new JoinCommand(), new ListRoomsCommand(), new FriendCommand(), new MailCommand());
 
                 while (running)
                 {
                     commandHandler.InputCommand();
                 }
+
+
 
                 connection.Close();
             });
@@ -80,6 +84,14 @@ namespace SqlChatForms
             adapter.Fill(table);
 
             return table;
+        }
+
+        static void OnProcessExit(object sender, EventArgs e)
+        {
+            if (login.userID != null)
+            {
+                ExecuteUSP("usp_SetOnline", ("@UserID", login.userID), ("@Online", false));
+            }
         }
     }
 }

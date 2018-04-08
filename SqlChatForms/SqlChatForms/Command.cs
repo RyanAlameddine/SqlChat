@@ -23,5 +23,16 @@ namespace SqlChatForms
             ConsoleAdditions.WriteLine($"§4Command execution failed. Please view the following information on {label}§4.");
             Program.commandHandler.Execute($".help {label}");
         }
+
+        public void Fail(string error)
+        {
+            ConsoleAdditions.WriteLine($"§4{error}");
+            Program.commandHandler.Execute($".help {label}");
+        }
+
+        public void Respond(string info)
+        {
+            ConsoleAdditions.WriteLine(info);
+        }
     }
 }
