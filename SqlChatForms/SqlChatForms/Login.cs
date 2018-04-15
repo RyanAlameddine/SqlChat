@@ -14,6 +14,7 @@ namespace SqlChatForms
         public string userID;
         public bool Success;
 
+        public DataRowCollection mail;
 
         public void AttemptLogin(string username, string password)
         {
@@ -43,6 +44,16 @@ namespace SqlChatForms
             userID = table.Rows[0]["UserID"].ToString();
             this.username = username;
             Program.ExecuteUSP("usp_SetOnline", ("@UserID", userID), ("@Online", true));
+
+            LoadMail();
+            if(mail.Count == 0)
+            {
+                Console.WriteLine("You have no new mail");
+            }
+            else
+            {
+                ConsoleAdditions.WriteLine($"You have §d{mail.Count} §7new mail!\nEnter '.mail read' to view these messages.");
+            }
         }
 
         bool usernameExists(string username)
@@ -66,6 +77,13 @@ namespace SqlChatForms
             DataTable table = Program.ExecuteUSP("usp_GetUser", ("@Username", input));
 
             return table.Rows.Count > 0 ? (int)table.Rows[0][0] : -1;
+        }
+
+        public void LoadMail()
+        {
+            DataTable table = Program.ExecuteUSP("usp_GetMail", ("@UserID", userID));
+
+            mail = table.Rows;
         }
     }
 }

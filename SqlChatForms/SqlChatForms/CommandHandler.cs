@@ -123,6 +123,7 @@ namespace SqlChatForms
 
         public void Execute(string input)
         {
+            if (input.Length == 0) return;
             if (input[0] == '.')
             {
                 string[] split = input.Split(' ');

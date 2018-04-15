@@ -19,7 +19,7 @@ namespace SqlChatForms.Commands
         public override void Execute(string[] arguments)
         {
             base.Execute(arguments);
-            if (arguments.Count() >= 3) {
+            if (arguments.Length >= 3) {
                 if (arguments[0] == "send")
                 {
                     int recieverID = Program.login.FindUserID(arguments[1]);
@@ -39,6 +39,23 @@ namespace SqlChatForms.Commands
                     }
 
                     Program.ExecuteUSP("usp_sendMail", ("@SenderID", Program.login.userID), ("@RecieverID", recieverID), ("@Message", builder.ToString()), ("@MessageRead", false), ("@Date", DateTime.Now));
+                }
+            }else if(arguments.Length == 1)
+            {
+                if(arguments[0] == "read")
+                {
+                    Program.login.LoadMail();
+                    if(Program.login.mail.Count > 0)
+                    {
+                        DataRow mail = Program.login.mail[0];
+                        Console.WriteLine(mail[3]);
+                        Program.ExecuteUSP("usp_SetRead", ("@MailID", mail[0]));
+                        Program.login.mail.RemoveAt(0);
+                    }
+                    else
+                    {
+                        Console.WriteLine("You have no new mail");
+                    }
                 }
             }
             else
